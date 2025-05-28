@@ -92,6 +92,33 @@ Si realizas cambios en la API, puedes actualizar la documentación Swagger ejecu
 swag init -g cmd/api/main.go
 ```
 
+### Ejecutar Tests
+
+Para ejecutar todos los tests del proyecto:
+
+```bash
+go test ./...
+```
+
+Para ejecutar tests de un paquete específico:
+
+```bash
+go test ./internal/services
+```
+
+Para ejecutar tests con cobertura:
+
+```bash
+go test ./... -cover
+```
+
+Para ver la cobertura en detalle y generar un reporte HTML:
+
+```bash
+go test ./... -coverprofile=coverage.out
+go tool cover -html=coverage.out
+```
+
 ## Contribución
 
 1. Haz un Fork del proyecto
