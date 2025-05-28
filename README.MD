@@ -1,10 +1,11 @@
-# API RESTful de Usuarios
+# API RESTful de Usuarios y Posts
 
-Este proyecto es una API RESTful desarrollada en Go que proporciona endpoints para la gestión de usuarios.
+Este proyecto es una API RESTful desarrollada en Go que proporciona endpoints para la gestión de usuarios y sus posts.
 
 ## Características
 
 - Gestión de usuarios (CRUD)
+- Gestión de posts (CRUD)
 - API RESTful
 - Servidor HTTP en Go
 - Arquitectura limpia y modular
@@ -24,6 +25,7 @@ Este proyecto es una API RESTful desarrollada en Go que proporciona endpoints pa
 ├── internal/
 │   ├── api/
 │   │   └── handlers/       # Manejadores HTTP
+│   ├── models/            # Modelos de datos
 │   └── services/          # Lógica de negocio
 ├── docs/                  # Documentación Swagger
 ├── go.mod
@@ -38,6 +40,14 @@ Este proyecto es una API RESTful desarrollada en Go que proporciona endpoints pa
 - `POST /users` - Crear un nuevo usuario
 - `GET /users/{id}` - Obtener un usuario por ID
 - `DELETE /users/{id}` - Eliminar un usuario por ID
+
+### Posts
+
+- `GET /posts` - Listar todos los posts
+- `POST /posts` - Crear un nuevo post
+- `GET /posts/{id}` - Obtener un post por ID
+- `DELETE /posts/{id}` - Eliminar un post por ID
+- `GET /users/{id}/posts` - Obtener todos los posts de un usuario específico
 
 ### Documentación Swagger
 
