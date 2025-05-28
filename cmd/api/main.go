@@ -2,6 +2,7 @@ package main
 
 import (
 	"example/api/internal/api/handlers"
+	"example/api/internal/api/middleware"
 	"example/api/internal/services"
 	"fmt"
 	"log"
@@ -26,13 +27,16 @@ func main() {
 	postService := services.NewPostService()
 	postHandler := handlers.NewPostHandler(postService)
 
+	// Create a new mux router
+	mux := http.NewServeMux()
+
 	// Swagger documentation endpoint
-	http.HandleFunc("/swagger/", httpSwagger.Handler(
-		httpSwagger.URL("http://localhost:8085/swagger/doc.json"),
+	mux.HandleFunc("/swagger/", httpSwagger.Handler(
+		httpSwagger.URL("http://localhost:8059/swagger/doc.json"),
 	))
 
 	// User endpoints
-	http.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
 			userHandler.List(w, r)
@@ -43,7 +47,7 @@ func main() {
 		}
 	})
 
-	http.HandleFunc("/users/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/users/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path[len("/users/"):] == "posts" {
 			postHandler.FindByUserID(w, r)
 			return
@@ -59,7 +63,7 @@ func main() {
 	})
 
 	// Post endpoints
-	http.HandleFunc("/posts", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/posts", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
 			postHandler.List(w, r)
@@ -70,7 +74,7 @@ func main() {
 		}
 	})
 
-	http.HandleFunc("/posts/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/posts/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
 			postHandler.FindByID(w, r)
@@ -81,6 +85,9 @@ func main() {
 		}
 	})
 
-	log.Println("Server starting on :8085")
-	log.Fatal(http.ListenAndServe(":8085", nil))
+	// Apply CORS middleware to all routes
+	handler := middleware.CORS(mux)
+
+	log.Println("Server starting on :8059")
+	log.Fatal(http.ListenAndServe(":8059", handler))
 }
