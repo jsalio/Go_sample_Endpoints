@@ -1,6 +1,6 @@
 # API RESTful de Usuarios y Posts
 
-Este proyecto es una API RESTful desarrollada en Go que proporciona endpoints para la gestión de usuarios y sus posts.
+Este proyecto es una API RESTful desarrollada en Go que proporciona endpoints para la gestión de usuarios y sus posts. Todos los datos se manejan en memoria . solo vivos mientra la aplicacion  este activa
 
 ## Características
 
